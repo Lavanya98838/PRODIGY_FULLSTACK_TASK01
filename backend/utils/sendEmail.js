@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 
 // Function to send verification email
 const sendVerificationEmail = async (email, token) => {
-  const verifyURL = `http://localhost:5000/api/auth/verify-email/${token}`;
+  const verifyURL = `https://prodigy-fullstack-task01.onrender.com/api/auth/verify-email/${encodedToken}`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,

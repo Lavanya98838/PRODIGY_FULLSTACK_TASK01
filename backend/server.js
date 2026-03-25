@@ -48,8 +48,8 @@ app.use("/api/auth/forgot-password", authLimiter);
 // CORS configuration — only allow our frontend to access backend
 const corsOptions = {
   origin: [
-    "http://localhost:5173",    // local development
-    "https://your-app.vercel.app" // production frontend — update this later
+    "http://localhost:5173",
+    "https://your-vercel-url.vercel.app" // replace with your actual URL
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
