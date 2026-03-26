@@ -71,18 +71,21 @@ const registerUser = async (req, res) => {
       isVerified: false,
     });
 
-    // Send verification email
-    await sendVerificationEmail(email, verifyToken);
-
+    // Send response immediately without waiting for email
     res.status(201).json({
       message: "Registration successful! Please check your email to verify your account.",
+    });
+
+    // Send verification email AFTER response is sent
+    // This way the response is not blocked by email sending
+    sendVerificationEmail(email, verifyToken).catch((err) => {
+      console.error("Email sending failed:", err.message);
     });
 
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 // ─── VERIFY EMAIL ────────────────────────────────────────
 const verifyEmail = async (req, res) => {
   try {
@@ -155,12 +158,10 @@ const forgotPassword = async (req, res) => {
   try {
     const email = req.body.email;
 
-    // Validate email format
     if (!isValidEmail(email)) {
       return res.status(400).json({ message: "Please enter a valid email address" });
     }
 
-    // Find user by email
     const user = await User.findOne({ email: email });
 
     if (!user) {
@@ -170,21 +171,23 @@ const forgotPassword = async (req, res) => {
     // Generate 6 digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Save OTP and expiry time to user — expires in 10 minutes
+    // Save OTP and expiry time
     user.otpCode = otp;
     user.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
     await user.save();
 
-    // Send OTP email
-    await sendOTPEmail(email, otp);
-
+    // Send response immediately
     res.status(200).json({ message: "OTP sent to your email address" });
+
+    // Send OTP email AFTER response
+    sendOTPEmail(email, otp).catch((err) => {
+      console.error("OTP email sending failed:", err.message);
+    });
 
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 // ─── VERIFY OTP AND RESET PASSWORD ───────────────────────
 const resetPassword = async (req, res) => {
   try {
