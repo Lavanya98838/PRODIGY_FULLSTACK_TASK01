@@ -43,11 +43,8 @@ app.get("/", (req, res) => {
   res.send("Server is running!");
 });
 
-const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
 app.get("/test-email", async (req, res) => {
   try {
     const { sendVerificationEmail } = require("./utils/sendEmail");
@@ -56,4 +53,9 @@ app.get("/test-email", async (req, res) => {
   } catch (error) {
     res.json({ message: "Email failed: " + error.message });
   }
+});
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
