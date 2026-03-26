@@ -1,17 +1,27 @@
 const nodemailer = require("nodemailer");
 
-// Create transporter using Gmail
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+// Create transporter using Gmail with timeout settings
+const createTransporter = () => {
+  return nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
+    socketTimeout: 30000,
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
+};
 
 // Function to send verification email
 const sendVerificationEmail = async (email, token) => {
-  // Encode the token to prevent any URL issues
+  const transporter = createTransporter();
   const encodedToken = encodeURIComponent(token);
   const verifyURL = `https://prodigy-fullstack-task01.onrender.com/api/auth/verify-email/${encodedToken}`;
 
@@ -43,6 +53,8 @@ const sendVerificationEmail = async (email, token) => {
 
 // Function to send OTP email
 const sendOTPEmail = async (email, otp) => {
+  const transporter = createTransporter();
+
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
