@@ -86,6 +86,18 @@ const registerUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+res.status(201).json({
+  message: "Registration successful! Please check your email to verify your account.",
+});
+
+// Send verification email AFTER response
+sendVerificationEmail(email, verifyToken)
+  .then(() => {
+    console.log(`Verification email sent successfully to ${email}`);
+  })
+  .catch((err) => {
+    console.error("Email sending failed:", err.message);
+  });
 // ─── VERIFY EMAIL ────────────────────────────────────────
 const verifyEmail = async (req, res) => {
   try {

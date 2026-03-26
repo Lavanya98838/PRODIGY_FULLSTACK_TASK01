@@ -48,3 +48,12 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+app.get("/test-email", async (req, res) => {
+  try {
+    const { sendVerificationEmail } = require("./utils/sendEmail");
+    await sendVerificationEmail(process.env.EMAIL_USER, "testtoken123");
+    res.json({ message: "Test email sent successfully!" });
+  } catch (error) {
+    res.json({ message: "Email failed: " + error.message });
+  }
+});
