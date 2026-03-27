@@ -1,15 +1,9 @@
-import { useContext } from "react";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
-  const context = useContext(AuthContext);
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
-
-  // If context is not available yet return empty navbar
-  if (!context) return <nav style={{ backgroundColor: "#333", padding: "10px 20px" }}></nav>;
-
-  const { user, logout } = context;
 
   const handleLogout = () => {
     logout();
@@ -25,7 +19,10 @@ const Navbar = () => {
       alignItems: "center",
       color: "white"
     }}>
-      <h3 style={{ cursor: "pointer" }} onClick={() => navigate("/dashboard")}>
+      <h3
+        style={{ cursor: "pointer", margin: 0 }}
+        onClick={() => navigate(user ? "/dashboard" : "/login")}
+      >
         MyAuthApp
       </h3>
 

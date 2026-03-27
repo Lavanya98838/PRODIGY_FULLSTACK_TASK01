@@ -1,46 +1,29 @@
-import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
-const { login } = useAuth();
 const Register = () => {
   const [name, setName] = useState("");
   const [employeeId, setEmployeeId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  // Validate email format on frontend
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setSuccess("");
 
-    // Frontend validations
-    if (!name || !employeeId || !email || !password) {
-      return setError("Please fill all fields");
-    }
-
-    if (!isValidEmail(email)) {
-      return setError("Please enter a valid email address");
-    }
-
-    if (password.length < 6) {
-      return setError("Password must be at least 6 characters");
-    }
+    if (!name || !employeeId || !email || !password) return setError("Please fill all fields");
+    if (!isValidEmail(email)) return setError("Please enter a valid email address");
+    if (password.length < 6) return setError("Password must be at least 6 characters");
 
     setLoading(true);
-
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/register`,
@@ -49,9 +32,7 @@ const Register = () => {
       login(response.data);
       navigate("/dashboard");
     } catch (err) {
-      setError(
-        err.response ? err.response.data.message : "Something went wrong"
-      );
+      setError(err.response ? err.response.data.message : "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -60,10 +41,7 @@ const Register = () => {
   return (
     <div className="container">
       <h2>Create Account</h2>
-
       {error && <p className="error">{error}</p>}
-      {success && <p className="success">{success}</p>}
-
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Full Name</label>
@@ -74,7 +52,6 @@ const Register = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-
         <div className="form-group">
           <label>Employee ID</label>
           <input
@@ -84,7 +61,6 @@ const Register = () => {
             onChange={(e) => setEmployeeId(e.target.value)}
           />
         </div>
-
         <div className="form-group">
           <label>Email</label>
           <input
@@ -94,7 +70,6 @@ const Register = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-
         <div className="form-group">
           <label>Password</label>
           <input
@@ -104,15 +79,15 @@ const Register = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-
         <button className="btn" type="submit" disabled={loading}>
           {loading ? "Creating Account..." : "Register"}
         </button>
       </form>
-
       <div className="link">
         Already have an account?{" "}
-        <a onClick={() => navigate("/login")}>Login here</a>
+        <a onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>
+          Login here
+        </a>
       </div>
     </div>
   );
