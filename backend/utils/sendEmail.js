@@ -1,29 +1,18 @@
 const nodemailer = require("nodemailer");
 
-const createTransporter = () => {
-  return nodemailer.createTransport({
+const sendOTPEmail = async (email, otp) => {
+  const transporter = nodemailer.createTransport({
     host: "smtp-relay.brevo.com",
-    port: 587,
+    port: 465,
     secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-    connectionTimeout: 30000,
-    greetingTimeout: 30000,
-    socketTimeout: 30000,
-    tls: {
-      rejectUnauthorized: false,
-    },
   });
-};
-
-// Only OTP email remains
-const sendOTPEmail = async (email, otp) => {
-  const transporter = createTransporter();
 
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: `"MyAuthApp" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: "Password Reset OTP",
     html: `
@@ -43,6 +32,7 @@ const sendOTPEmail = async (email, otp) => {
   };
 
   await transporter.sendMail(mailOptions);
+  console.log(`OTP email sent successfully to ${email}`);
 };
 
 module.exports = { sendOTPEmail };
