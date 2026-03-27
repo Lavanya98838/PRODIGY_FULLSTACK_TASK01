@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+
+const ForgotPassword = () => {
+  // Add this line at the top of the component
+  const { forceLogout } = useAuth();
 
 const ForgotPassword = () => {
   const [step, setStep] = useState(1);
@@ -52,14 +57,29 @@ const ForgotPassword = () => {
         { email, otp, newPassword }
       );
       setSuccess(response.data.message);
-      setTimeout(() => navigate("/login"), 2000);
+
+      // Force logout user after password reset
+      if (response.data.forceLogout) {
+        // Clear localStorage completely
+        localStorage.removeItem("user");
+      }
+
+      // Force logout user after password reset
+      if (response.data.forceLogout) {
+        forceLogout(); // Use context forceLogout instead of just localStorage.removeItem
+      }
+
+      // Redirect to login after 2 seconds
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+
     } catch (err) {
       setError(err.response ? err.response.data.message : "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="container">
       <h2>Forgot Password</h2>

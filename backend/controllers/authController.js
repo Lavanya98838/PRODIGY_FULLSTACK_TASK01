@@ -167,7 +167,10 @@ const resetPassword = async (req, res) => {
     user.otpExpires = null;
     await user.save();
 
-    res.status(200).json({ message: "Password reset successful! You can now login." });
+    res.status(200).json({
+      message: "Password reset successful! Please login with your new password.",
+      forceLogout: true  // Tell frontend to clear session
+    });
 
   } catch (error) {
     res.status(500).json({ message: error.message });

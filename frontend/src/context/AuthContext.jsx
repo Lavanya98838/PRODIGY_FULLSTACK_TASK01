@@ -22,8 +22,14 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
+  // Force logout clears everything including any cached data
+  const forceLogout = () => {
+    setUser(null);
+    localStorage.clear();
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, forceLogout }}>
       {children}
     </AuthContext.Provider>
   );
