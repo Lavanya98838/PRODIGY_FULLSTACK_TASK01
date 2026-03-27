@@ -1,15 +1,16 @@
-// Import required hooks
-import { useAuth } from "../context/AuthContext";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
-  // Get user data and logout function from auth context
-  const { user, logout } = useAuth();
-
-  // For navigating to other pages
+  const context = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Handle logout
+  // If context is not available yet return empty navbar
+  if (!context) return <nav style={{ backgroundColor: "#333", padding: "10px 20px" }}></nav>;
+
+  const { user, logout } = context;
+
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -32,8 +33,6 @@ const Navbar = () => {
         {user ? (
           <>
             <span>Hello, {user.name}!</span>
-
-            {/* Show admin link only if user is admin */}
             {user.role === "admin" && (
               <button
                 onClick={() => navigate("/admin")}
@@ -48,7 +47,6 @@ const Navbar = () => {
                 Admin Panel
               </button>
             )}
-
             <button
               onClick={handleLogout}
               style={{
