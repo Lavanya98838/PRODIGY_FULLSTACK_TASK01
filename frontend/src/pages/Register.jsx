@@ -1,7 +1,9 @@
+import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const { login } = useAuth();
 const Register = () => {
   const [name, setName] = useState("");
   const [employeeId, setEmployeeId] = useState("");
@@ -44,7 +46,8 @@ const Register = () => {
         `${import.meta.env.VITE_API_URL}/api/auth/register`,
         { name, employeeId, email, password }
       );
-      setSuccess(response.data.message);
+      login(response.data);
+      navigate("/dashboard");
     } catch (err) {
       setError(
         err.response ? err.response.data.message : "Something went wrong"

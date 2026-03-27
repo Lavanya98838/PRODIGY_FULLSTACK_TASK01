@@ -1,6 +1,5 @@
 const nodemailer = require("nodemailer");
 
-// Create transporter using Gmail with timeout settings
 const createTransporter = () => {
   return nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -19,39 +18,7 @@ const createTransporter = () => {
   });
 };
 
-// Function to send verification email
-const sendVerificationEmail = async (email, token) => {
-  const transporter = createTransporter();
-  const encodedToken = encodeURIComponent(token);
-  const verifyURL = `https://prodigy-fullstack-task01.onrender.com/api/auth/verify-email/${encodedToken}`;
-
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: "Verify Your Email Address",
-    html: `
-      <h2>Email Verification</h2>
-      <p>Thank you for registering! Please verify your email by clicking the link below:</p>
-      <a href="${verifyURL}" style="
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        text-decoration: none;
-        border-radius: 5px;
-        display: inline-block;
-        margin: 20px 0;
-      ">Verify Email</a>
-      <p>Or copy and paste this link in your browser:</p>
-      <p>${verifyURL}</p>
-      <p>This link expires in 24 hours.</p>
-      <p>If you did not register please ignore this email.</p>
-    `,
-  };
-
-  await transporter.sendMail(mailOptions);
-};
-
-// Function to send OTP email
+// Only OTP email remains
 const sendOTPEmail = async (email, otp) => {
   const transporter = createTransporter();
 
@@ -78,4 +45,4 @@ const sendOTPEmail = async (email, otp) => {
   await transporter.sendMail(mailOptions);
 };
 
-module.exports = { sendVerificationEmail, sendOTPEmail };
+module.exports = { sendOTPEmail };

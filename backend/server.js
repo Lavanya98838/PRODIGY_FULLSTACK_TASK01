@@ -13,14 +13,17 @@ connectDB();
 const app = express();
 
 app.use(cors());
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+  crossOriginOpenerPolicy: false,
+}));
 app.use(express.json());
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   message: {
-    message: "Too many requests from this IP please try again after 15 minutes"
+    message: "Too many requests please try again after 15 minutes"
   },
 });
 
@@ -28,7 +31,7 @@ const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
   message: {
-    message: "Too many login attempts please try again after 15 minutes"
+    message: "Too many attempts please try again after 15 minutes"
   },
 });
 
@@ -43,17 +46,6 @@ app.get("/", (req, res) => {
   res.send("Server is running!");
 });
 
-
-
-app.get("/test-email", async (req, res) => {
-  try {
-    const { sendVerificationEmail } = require("./utils/sendEmail");
-    await sendVerificationEmail(process.env.EMAIL_USER, "testtoken123");
-    res.json({ message: "Test email sent successfully!" });
-  } catch (error) {
-    res.json({ message: "Email failed: " + error.message });
-  }
-});
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
