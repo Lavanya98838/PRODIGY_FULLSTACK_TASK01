@@ -15,77 +15,60 @@ const Navbar = () => {
       backgroundColor: "#333",
       padding: "10px 20px",
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "center",
       alignItems: "center",
-      color: "white"
+      color: "white",
+      position: "relative"
     }}>
+
+      {/* App name - centered */}
       <h3
-        style={{ cursor: "pointer", margin: 0 }}
+        style={{ cursor: "pointer", margin: 0, textAlign: "center" }}
         onClick={() => navigate(user ? "/dashboard" : "/login")}
       >
         MyAuthApp
       </h3>
 
-      <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
-        {user ? (
-          <>
-            <span>Hello, {user.name}!</span>
-            {user.role === "admin" && (
-              <button
-                onClick={() => navigate("/admin")}
-                style={{
-                  padding: "5px 10px",
-                  backgroundColor: "#ff9800",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer"
-                }}>
-                Admin Panel
-              </button>
-            )}
+      {/* Right side buttons - only shown when logged in */}
+      {user && (
+        <div style={{
+          display: "flex",
+          gap: "15px",
+          alignItems: "center",
+          position: "absolute",
+          right: "20px"
+        }}>
+          <span>Hello, {user.name}!</span>
+
+          {user.role === "admin" && (
             <button
-              onClick={handleLogout}
+              onClick={() => navigate("/admin")}
               style={{
                 padding: "5px 10px",
-                backgroundColor: "#f44336",
+                backgroundColor: "#ff9800",
                 color: "white",
                 border: "none",
                 borderRadius: "5px",
                 cursor: "pointer"
               }}>
-              Logout
+              Admin Panel
             </button>
-          </>
-        ) : (
-          <>
-            <button
-              onClick={() => navigate("/login")}
-              style={{
-                padding: "5px 10px",
-                backgroundColor: "#4CAF50",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer"
-              }}>
-              Login
-            </button>
-            <button
-              onClick={() => navigate("/register")}
-              style={{
-                padding: "5px 10px",
-                backgroundColor: "#2196F3",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer"
-              }}>
-              Register
-            </button>
-          </>
-        )}
-      </div>
+          )}
+
+          <button
+            onClick={handleLogout}
+            style={{
+              padding: "5px 10px",
+              backgroundColor: "#f44336",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer"
+            }}>
+            Logout
+          </button>
+        </div>
+      )}
     </nav>
   );
 };
