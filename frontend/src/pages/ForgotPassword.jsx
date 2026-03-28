@@ -4,10 +4,6 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
 const ForgotPassword = () => {
-  // Add this line at the top of the component
-  const { forceLogout } = useAuth();
-
-const ForgotPassword = () => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -15,6 +11,7 @@ const ForgotPassword = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const { forceLogout } = useAuth();
   const navigate = useNavigate();
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
