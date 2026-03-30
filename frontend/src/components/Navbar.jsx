@@ -92,3 +92,22 @@ const Navbar = () => {
 };
 
 export default Navbar;
+const GreetingNavbar = ({ user }) => {
+  return (
+    <div style={{
+      backgroundColor: "#f5f5f5",
+      padding: "15px 20px",
+      textAlign: "center",
+      color: "#333",
+      borderBottom: "1px solid #ddd"
+    }}>
+      <h4 style={{ margin: 0 }}>
+        Welcome, {user?.name}! 👋
+      </h4>
+    </div>
+  );
+};
+
+export default Navbar;
+
+export { GreetingNavbar };
