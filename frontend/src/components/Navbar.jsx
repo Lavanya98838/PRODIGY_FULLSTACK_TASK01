@@ -1,9 +1,10 @@
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
@@ -40,6 +41,23 @@ const Navbar = () => {
         }}>
           <span>Hello, {user.name}!</span>
 
+          {/* Dashboard button - hidden when already on dashboard */}
+          {location.pathname !== "/dashboard" && (
+            <button
+              onClick={() => navigate("/dashboard")}
+              style={{
+                padding: "5px 10px",
+                backgroundColor: "#4CAF50",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer"
+              }}>
+              Dashboard
+            </button>
+          )}
+
+          {/* Admin Panel button - only for admin users */}
           {user.role === "admin" && (
             <button
               onClick={() => navigate("/admin")}
