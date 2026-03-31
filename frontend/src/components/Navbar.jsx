@@ -93,7 +93,7 @@ const Navbar = () => {
       {/* Greeting Navbar - only shown when logged in */}
       {user && (
         <div style={{
-          backgroundColor: "#875e5e00",
+          backgroundColor: "#00000000",
           padding: "8px 20px",
           display: "flex",
           alignItems: "center",
