@@ -19,12 +19,11 @@ const Register = () => {
 
   const getPasswordErrors = (pwd) => {
     const errors = [];
-    if (pwd.length < 8) errors.push("at least 8 characters");
-    if (!/[A-Z]/.test(pwd)) errors.push("one uppercase letter");
-    if (!/[a-z]/.test(pwd)) errors.push("one lowercase letter");
-    if (!/[0-9]/.test(pwd)) errors.push("one number");
-    if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(pwd))
-      errors.push("one special character");
+      if (pwd.length < 8) errors.push("at least 8 characters");
+      if (!/[A-Z]/.test(pwd)) errors.push("one uppercase letter");
+      if (!/[a-z]/.test(pwd)) errors.push("one lowercase letter");
+      if (!/[0-9]/.test(pwd)) errors.push("one number");
+      if (!/[!@#$%^&*()_+={}|,.]/.test(pwd)) errors.push("one special character");
     return errors;
   };
 
