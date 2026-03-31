@@ -1,3 +1,4 @@
+
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -13,10 +14,105 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <h2>Welcome to Dashboard!</h2>
-      <p>Name: {user && user.name}</p>
-      <p>Employee ID: {user && user.employeeId}</p>
-      <p>Email: {user && user.email}</p>
-      <p>Role: {user && user.role}</p>
+
+      <div style={{
+        width: "100%",
+        borderTop: "1px solid #eee",
+        paddingTop: "15px",
+        marginTop: "10px"
+      }}>
+
+        <div style={{
+          display: "flex",
+          marginBottom: "10px",
+          alignItems: "flex-start"
+        }}>
+          <span style={{
+            fontWeight: "bold",
+            minWidth: "120px",
+            fontSize: "16px"
+          }}>
+            Name:
+          </span>
+          <span style={{
+            fontSize: "16px",
+            wordBreak: "break-word",
+            overflowWrap: "break-word",
+            flex: 1,
+            lineHeight: "1.5"
+          }}>
+            {user && user.name}
+          </span>
+        </div>
+
+        <div style={{
+          display: "flex",
+          marginBottom: "10px",
+          alignItems: "flex-start"
+        }}>
+          <span style={{
+            fontWeight: "bold",
+            minWidth: "120px",
+            fontSize: "16px"
+          }}>
+            Employee ID:
+          </span>
+          <span style={{
+            fontSize: "16px",
+            wordBreak: "break-word",
+            overflowWrap: "break-word",
+            flex: 1
+          }}>
+            {user && user.employeeId}
+          </span>
+        </div>
+
+        <div style={{
+          display: "flex",
+          marginBottom: "10px",
+          alignItems: "flex-start"
+        }}>
+          <span style={{
+            fontWeight: "bold",
+            minWidth: "120px",
+            fontSize: "16px"
+          }}>
+            Email:
+          </span>
+          <span style={{
+            fontSize: "16px",
+            wordBreak: "break-word",
+            overflowWrap: "break-word",
+            flex: 1
+          }}>
+            {user && user.email}
+          </span>
+        </div>
+
+        <div style={{
+          display: "flex",
+          marginBottom: "10px",
+          alignItems: "flex-start"
+        }}>
+          <span style={{
+            fontWeight: "bold",
+            minWidth: "120px",
+            fontSize: "16px"
+          }}>
+            Role:
+          </span>
+          <span style={{
+            fontSize: "16px",
+            wordBreak: "break-word",
+            overflowWrap: "break-word",
+            flex: 1
+          }}>
+            {user && user.role}
+          </span>
+        </div>
+
+      </div>
+
       <button className="btn-logout" onClick={handleLogout}>
         Logout
       </button>
