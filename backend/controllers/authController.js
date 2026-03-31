@@ -10,6 +10,16 @@ const isValidEmail = (email) => {
   return emailRegex.test(email);
 };
 
+// Password strength validation
+const isStrongPassword = (password) => {
+  const minLength = password.length >= 8;
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasLowercase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+  return minLength && hasUppercase && hasLowercase && hasNumber && hasSpecial;
+};
+
 // Generate JWT token
 const generateToken = (id) => {
   return jwt.sign(
@@ -32,8 +42,10 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "Please enter a valid email address" });
     }
 
-    if (password.length < 6) {
-      return res.status(400).json({ message: "Password must be at least 6 characters" });
+    if (!isStrongPassword(password)) {
+      return res.status(400).json({
+        message: "Password must be at least 8 characters and contain uppercase, lowercase, number and special character"
+      });
     }
 
     const emailExists = await User.findOne({ email });
@@ -143,8 +155,10 @@ const resetPassword = async (req, res) => {
       return res.status(400).json({ message: "Please fill all fields" });
     }
 
-    if (newPassword.length < 6) {
-      return res.status(400).json({ message: "Password must be at least 6 characters" });
+    if (!isStrongPassword(newPassword)) {
+      return res.status(400).json({
+        message: "Password must be at least 8 characters and contain uppercase, lowercase, number and special character"
+      });
     }
 
     const user = await User.findOne({ email });
@@ -169,7 +183,7 @@ const resetPassword = async (req, res) => {
 
     res.status(200).json({
       message: "Password reset successful! Please login with your new password.",
-      forceLogout: true  // Tell frontend to clear session
+      forceLogout: true
     });
 
   } catch (error) {
