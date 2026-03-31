@@ -114,7 +114,7 @@ const Login = () => {
             <span style={{ color: "white", fontSize: "28px", fontWeight: "bold" }}>M</span>
           </div>
           <h1 style={{ fontSize: "24px", fontWeight: "700", color: "#1a237e", margin: "0 0 6px" }}>
-            Welcome Back
+            Welcome
           </h1>
           <p style={{ color: "#666", fontSize: "14px", margin: 0 }}>
             Sign in to your account to continue
