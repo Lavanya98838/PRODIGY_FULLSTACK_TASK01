@@ -36,45 +36,84 @@ const Login = () => {
     }
   };
 
-  return (
-    <div style={{
-      minHeight: "100vh",
-      background: "linear-gradient(135deg, #1a237e 0%, #283593 50%, #1565c0 100%)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "20px",
-      fontFamily: "Arial, sans-serif"
-    }}>
-      <div style={{
-        background: "white",
-        borderRadius: "16px",
-        padding: "48px 40px",
-        width: "100%",
-        maxWidth: "420px",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.3)"
-      }}>
+  const pageStyle = {
+    minHeight: "100vh",
+    background: "linear-gradient(135deg, #1a237e 0%, #283593 50%, #1565c0 100%)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "20px",
+    fontFamily: "Arial, sans-serif"
+  };
 
-        {/* Logo / Brand */}
+  const cardStyle = {
+    background: "white",
+    borderRadius: "16px",
+    padding: "48px 40px",
+    width: "100%",
+    maxWidth: "420px",
+    boxShadow: "0 20px 60px rgba(0,0,0,0.3)"
+  };
+
+  const logoBoxStyle = {
+    width: "60px",
+    height: "60px",
+    backgroundColor: "#1a237e",
+    borderRadius: "12px",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "16px"
+  };
+
+  const labelStyle = {
+    display: "block",
+    fontSize: "14px",
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: "8px"
+  };
+
+  const inputStyle = {
+    width: "100%",
+    padding: "12px 16px",
+    border: "2px solid #e0e0e0",
+    borderRadius: "8px",
+    fontSize: "14px",
+    outline: "none",
+    boxSizing: "border-box",
+    color: "#333"
+  };
+
+  const btnStyle = {
+    width: "100%",
+    padding: "14px",
+    backgroundColor: loading ? "#9fa8da" : "#1a237e",
+    color: "white",
+    border: "none",
+    borderRadius: "8px",
+    fontSize: "15px",
+    fontWeight: "600",
+    cursor: loading ? "not-allowed" : "pointer",
+    letterSpacing: "0.5px"
+  };
+
+  const linkStyle = {
+    color: "#1a237e",
+    fontWeight: "600",
+    cursor: "pointer",
+    textDecoration: "none"
+  };
+
+  return (
+    <div style={pageStyle}>
+      <div style={cardStyle}>
+
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <div style={{
-            width: "60px",
-            height: "60px",
-            backgroundColor: "#1a237e",
-            borderRadius: "12px",
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: "16px"
-          }}>
+          <div style={logoBoxStyle}>
             <span style={{ color: "white", fontSize: "28px", fontWeight: "bold" }}>M</span>
           </div>
-          <h1 style={{
-            fontSize: "24px",
-            fontWeight: "700",
-            color: "#1a237e",
-            margin: "0 0 6px"
-          }}>
+          <h1 style={{ fontSize: "24px", fontWeight: "700", color: "#1a237e", margin: "0 0 6px" }}>
             Welcome Back
           </h1>
           <p style={{ color: "#666", fontSize: "14px", margin: 0 }}>
@@ -82,7 +121,6 @@ const Login = () => {
           </p>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div style={{
             backgroundColor: "#ffebee",
@@ -97,73 +135,29 @@ const Login = () => {
           </div>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit}>
 
-          {/* Email Field */}
           <div style={{ marginBottom: "20px" }}>
-            <label style={{
-              display: "block",
-              fontSize: "14px",
-              fontWeight: "600",
-              color: "#333",
-              marginBottom: "8px"
-            }}>
-              Email Address
-            </label>
+            <label style={labelStyle}>Email Address</label>
             <input
               type="email"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                border: "2px solid #e0e0e0",
-                borderRadius: "8px",
-                fontSize: "14px",
-                outline: "none",
-                transition: "border-color 0.2s",
-                boxSizing: "border-box",
-                color: "#333"
-              }}
-              onFocus={(e) => e.target.style.borderColor = "#1a237e"}
-              onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
+              style={inputStyle}
             />
           </div>
 
-          {/* Password Field */}
           <div style={{ marginBottom: "12px" }}>
-            <label style={{
-              display: "block",
-              fontSize: "14px",
-              fontWeight: "600",
-              color: "#333",
-              marginBottom: "8px"
-            }}>
-              Password
-            </label>
+            <label style={labelStyle}>Password</label>
             <div style={{ position: "relative" }}>
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: "12px 48px 12px 16px",
-                  border: "2px solid #e0e0e0",
-                  borderRadius: "8px",
-                  fontSize: "14px",
-                  outline: "none",
-                  transition: "border-color 0.2s",
-                  boxSizing: "border-box",
-                  color: "#333"
-                }}
-                onFocus={(e) => e.target.style.borderColor = "#1a237e"}
-                onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
+                style={{ ...inputStyle, paddingRight: "60px" }}
               />
-              {/* Show/Hide Password Toggle */}
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -178,70 +172,32 @@ const Login = () => {
                   color: "#999",
                   fontSize: "13px",
                   padding: 0
-                }}>
+                }}
+              >
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
           </div>
 
-          {/* Forgot Password */}
           <div style={{ textAlign: "right", marginBottom: "24px" }}>
-            
-              onClick={() => navigate("/forgot-password")}
-              style={{
-                color: "#1a237e",
-                fontSize: "13px",
-                cursor: "pointer",
-                textDecoration: "none",
-                fontWeight: "600"
-              }}>
+            <a onClick={() => navigate("/forgot-password")} style={linkStyle}>
               Forgot Password?
             </a>
           </div>
 
-          {/* Login Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: "100%",
-              padding: "14px",
-              backgroundColor: loading ? "#9fa8da" : "#1a237e",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              fontSize: "15px",
-              fontWeight: "600",
-              cursor: loading ? "not-allowed" : "pointer",
-              transition: "background-color 0.2s",
-              letterSpacing: "0.5px"
-            }}
-            onMouseEnter={(e) => { if (!loading) e.target.style.backgroundColor = "#283593" }}
-            onMouseLeave={(e) => { if (!loading) e.target.style.backgroundColor = "#1a237e" }}
-          >
+          <button type="submit" disabled={loading} style={btnStyle}>
             {loading ? "Signing in..." : "Sign In"}
           </button>
+
         </form>
 
-        {/* Register Link */}
-        <p style={{
-          textAlign: "center",
-          marginTop: "24px",
-          fontSize: "14px",
-          color: "#666"
-        }}>
-          Don't have an account?{" "}
-          
-            onClick={() => navigate("/register")}
-            style={{
-              color: "#1a237e",
-              fontWeight: "600",
-              cursor: "pointer",
-              textDecoration: "none"
-            }}>
+        <p style={{ textAlign: "center", marginTop: "24px", fontSize: "14px", color: "#666" }}>
+          {"Don't have an account? "}
+          <a onClick={() => navigate("/register")} style={linkStyle}>
             Create Account
           </a>
         </p>
+
       </div>
     </div>
   );
