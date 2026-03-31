@@ -11,65 +11,87 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const navStyle = {
+    backgroundColor: "#1a237e",
+    padding: "0 32px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+    position: "relative",
+    height: "60px",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+    fontFamily: "Arial, sans-serif"
+  };
+
+  const btnStyle = {
+    padding: "7px 16px",
+    border: "none",
+    borderRadius: "6px",
+    fontSize: "13px",
+    fontWeight: "600",
+    cursor: "pointer"
+  };
+
+  const greetingStyle = {
+    backgroundColor: "#e8eaf6",
+    padding: "10px 32px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontFamily: "Arial, sans-serif"
+  };
+
   return (
     <>
       {/* Main Navbar */}
-      <nav style={{
-        backgroundColor: "#333",
-        padding: "10px 20px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        color: "white",
-        position: "relative",
-      }}>
+      <nav style={navStyle}>
 
-        {/* App name - centered */}
+        {/* App Name - Centered */}
         <h3
-          style={{ cursor: "pointer", margin: 0, textAlign: "center" }}
+          style={{
+            margin: 0,
+            fontSize: "20px",
+            fontWeight: "700",
+            cursor: "pointer",
+            letterSpacing: "0.5px"
+          }}
           onClick={() => navigate(user ? "/dashboard" : "/login")}
         >
           MyAuthApp
         </h3>
 
-        {/* Right side buttons - only shown when logged in */}
+        {/* Right side buttons */}
         {user && (
           <div style={{
             display: "flex",
-            gap: "15px",
+            gap: "10px",
             alignItems: "center",
             position: "absolute",
-            right: "20px"
+            right: "32px"
           }}>
-
-            {/* Dashboard button - hidden when already on dashboard */}
             {location.pathname !== "/dashboard" && (
               <button
                 onClick={() => navigate("/dashboard")}
                 style={{
-                  padding: "5px 10px",
-                  backgroundColor: "#4CAF50",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer"
-                }}>
+                  ...btnStyle,
+                  backgroundColor: "rgba(255,255,255,0.15)",
+                  color: "white"
+                }}
+              >
                 Dashboard
               </button>
             )}
 
-            {/* Admin Panel button - only for admin users */}
             {user.role === "admin" && (
               <button
                 onClick={() => navigate("/admin")}
                 style={{
-                  padding: "5px 10px",
+                  ...btnStyle,
                   backgroundColor: "#ff9800",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer"
-                }}>
+                  color: "white"
+                }}
+              >
                 Admin Panel
               </button>
             )}
@@ -77,38 +99,40 @@ const Navbar = () => {
             <button
               onClick={handleLogout}
               style={{
-                padding: "5px 10px",
+                ...btnStyle,
                 backgroundColor: "#f44336",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer"
-              }}>
-              Logout
+                color: "white"
+              }}
+            >
+              Sign Out
             </button>
           </div>
         )}
       </nav>
 
-      {/* Greeting Navbar - only shown when logged in */}
+      {/* Greeting Bar */}
       {user && (
-        <div style={{
-          backgroundColor: "#2d20d8ca",
-          padding: "8px 20px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "white",
-        }}>
+        <div style={greetingStyle}>
           <p style={{
             margin: 0,
-            fontSize: "15px",
+            fontSize: "14px",
+            color: "#1a237e",
+            fontWeight: "600",
             textAlign: "center",
             wordBreak: "break-word",
             maxWidth: "90%",
             lineHeight: "1.5"
           }}>
-            Welcome back, <strong>{user.name}</strong>! .
+            Welcome back, {user.name}! You are logged in as{" "}
+            <span style={{
+              backgroundColor: "#1a237e",
+              color: "white",
+              padding: "2px 10px",
+              borderRadius: "12px",
+              fontSize: "12px"
+            }}>
+              {user.role === "admin" ? "Administrator" : "User"}
+            </span>
           </p>
         </div>
       )}
