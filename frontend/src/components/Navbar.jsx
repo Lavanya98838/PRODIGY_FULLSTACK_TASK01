@@ -83,7 +83,7 @@ const Navbar = () => {
               </button>
             )}
 
-            {user.role === "admin" && (
+            {user.role === "admin" && location.pathname !== "/admin" && (
               <button
                 onClick={() => navigate("/admin")}
                 style={{
@@ -92,7 +92,7 @@ const Navbar = () => {
                   color: "white"
                 }}
               >
-                Admin Panel
+                 Admin Panel
               </button>
             )}
 
